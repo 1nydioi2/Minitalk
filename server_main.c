@@ -6,7 +6,7 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:19:55 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/03 02:04:00 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:50:49 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,19 @@ int	main()
 {
 	pid_t	pid;
 	char	*pid_str;
+	struct sigaction sa;
 	
 	pid = getpid();
 	pid_str = ft_uitoa(pid);
 	write(1, pid_str, (numlen(pid) + 1));
 	write(1, "\n", 1);
 	free(pid_str);
+	sa.sa_flags = 0;
+	sa.sa_handler = sig_handler;
+	sigemptyset(&sa.sa_mask);
 	binres();
-	signal(SIGUSR1, sig_handler);
-	signal(SIGUSR2, sig_handler);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 		pause();
 }

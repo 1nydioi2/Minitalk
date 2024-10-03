@@ -6,7 +6,7 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:30:38 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/03 02:14:30 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:34:55 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	char_to_sig(char c, pid_t pid)
 		else
 			kill(pid, SIGUSR1);
 		i--;
+		pause();
 	}
 }
 
