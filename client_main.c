@@ -49,7 +49,7 @@ void	char_to_sig(char c, pid_t pid)
 		else
 			kill(pid, SIGUSR1);
 		i--;
-		pause();
+		usleep(100);
 	}
 }
 
