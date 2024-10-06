@@ -6,15 +6,15 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 20:30:56 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/03 01:30:28 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:47:12 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-char power(char x, char y)
+char	power(char x, char y)
 {
- 	int	i;
+	int		i;
 	char	res;
 
 	if (!y)

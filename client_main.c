@@ -6,15 +6,17 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:30:38 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/03 12:34:55 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:25:49 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+int	g_aor;
+
 int	is_number(char str[])
 {
-	while(*str)
+	while (*str)
 	{
 		if (*str < '0' || *str > '9')
 			return (1);
@@ -41,24 +43,25 @@ void	char_to_sig(char c, pid_t pid)
 {
 	int	i;
 
-	i = 7;
+	i = 6;
 	while (i >= 0)
-	{	
+	{
 		if ((c >> i) & 1)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
 		i--;
-		usleep(100);
+		while(g_aor == 0)
+			usleep(1);
+		g_aor = 0;
 	}
 }
 
 void	received(int signum)
 {
-	if (signum == SIGUSR1)
-		write(1, "Glad you liked this one :)\n", 28);
-	else if (signum == SIGUSR2)
-		write(1, "Glad you liked this one too :)\n", 32);
+	g_aor = 1;
+	if (signum == SIGUSR2)
+		write(1, "Server told us he received the message :)\n", 28);
 }
 
 int	main(int argc, char **argv)
@@ -67,10 +70,11 @@ int	main(int argc, char **argv)
 	char	*str;
 
 	if (argc != 3)
-		return (write(1, "Wrong argument amount\n" , 23));
+		return (write(1, "Wrong argument amount\n", 23));
 	if (is_number(argv[1]))
 		return (write(1, "PID format not recognized\n", 27));
 	str = argv[2];
+	g_aor = 0;
 	pid = ft_atoui(argv[1]);
 	signal(SIGUSR1, received);
 	signal(SIGUSR2, received);

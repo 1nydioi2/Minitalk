@@ -6,26 +6,26 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:19:55 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/03 12:50:49 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:36:35 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-char	bin[9];
+char	g_bin[8];
 
 void	btoa(void)
 {
 	char	c;
-	int	i;
+	int		i;
 	char	p;
 
 	c = 0;
 	i = 0;
-	p = 7;
-	while (bin[i] && i < 8)
+	p = 6;
+	while (g_bin[i] && i < 7)
 	{
-		if (bin[i] == '1')
+		if (g_bin[i] == '1')
 			c += power(2, p);
 		i++;
 		p--;
@@ -39,14 +39,14 @@ void	binres(void)
 
 	i = 9;
 	while (i--)
-		bin[i] = '\0';
+		g_bin[i] = '\0';
 }
 
 char	*ft_uitoa(unsigned int pid)
 {
-	int	i;
-	int	len;
-	int	m;
+	int		i;
+	int		len;
+	int		m;
 	char	*str;
 
 	i = 0;
@@ -59,45 +59,47 @@ char	*ft_uitoa(unsigned int pid)
 	{
 		str[i++] = ((pid / m) + 48);
 		pid %= m;
-		m /= 10; 
+		m /= 10;
 	}
 	str[i] = '\0';
 	return (str);
 }
 
-void	sig_handler(int signum)
+void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	int	i;
 
+	(void) context;
 	i = 0;
-	while (i < 8 && bin[i])
+	while (i < 7 && g_bin[i])
 		i++;
 	if (signum == SIGUSR1)
-		bin[i] = '0';
+		g_bin[i] = '0';
 	else if (signum == SIGUSR2)
-		bin[i] = '1';
-	if (i == 7)
+		g_bin[i] = '1';
+	if (i == 6)
 	{
 		btoa();
 		binres();
 	}
+	kill(info->si_pid, SIGUSR1);
 }
 
-int	main()
+int	main(void)
 {
-	pid_t	pid;
-	char	*pid_str;
-	struct sigaction sa;
-	
+	pid_t				pid;
+	char				*pid_str;
+	struct sigaction	sa;
+
 	pid = getpid();
 	pid_str = ft_uitoa(pid);
 	write(1, pid_str, (numlen(pid) + 1));
 	write(1, "\n", 1);
 	free(pid_str);
-	sa.sa_flags = 0;
-	sa.sa_handler = sig_handler;
-	sigemptyset(&sa.sa_mask);
 	binres();
+	sa.sa_sigaction = sig_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
