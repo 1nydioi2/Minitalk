@@ -1,23 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   server_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 16:14:41 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/05 18:45:43 by nilamber         ###   ########.fr       */
+/*   Created: 2024/10/02 20:30:56 by nilamber          #+#    #+#             */
+/*   Updated: 2024/10/09 16:50:21 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MINITALK_H
-# define MINITALK_H
-# include <unistd.h>
-# include <stdio.h>
-# include <signal.h>
-# include <stdlib.h>
-# include <sys/types.h>
 
-char	power(char x, char y);
-int		numlen(unsigned int i);
+#include "minitalk.h"
 
-#endif
+int	power(int x, int y)
+{
+	int	i;
+	int	res;
+
+	if (!y)
+		return (1);
+	i = y;
+	res = x;
+	while (--i > 0)
+	{
+		res *= x;
+	}
+	return (res);
+}
+
+void	strres(char (*str)[], int lenght)
+{
+	int	i;
+
+	i = 0;
+	while (i < lenght)
+		(*str)[i++] = '\0';
+}
+
+int	numlen(unsigned int i)
+{
+	int	res;
+
+	res = 0;
+	while (i)
+	{
+		i /= 10;
+		res++;
+	}
+	return (res);
+}

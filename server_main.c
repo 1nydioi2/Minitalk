@@ -6,7 +6,7 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:19:55 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/08 18:55:52 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:09:26 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,6 @@ void	btoa(char *bin)
 	addchar(c);
 }
 
-void	strres(char (*str)[], int lenght)
-{
-	int	i;
-
-	i = 0;
-	while (i < lenght)
-		(*str)[i++] = '\0';
-}
-
 char	*ft_uitoa(unsigned int pid)
 {
 	int		i;
@@ -96,7 +87,7 @@ char	*ft_uitoa(unsigned int pid)
 void	sig_handler(int signum, siginfo_t *info, void *context)
 {
 	static int		i = 0;
-	static char	bin[] = {0, 0, 0, 0, 0, 0, 0, 0};
+	static char		bin[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 	(void) context;
 	if (signum == SIGUSR1)

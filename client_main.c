@@ -6,38 +6,13 @@
 /*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 16:30:38 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/08 19:00:12 by nilamber         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:10:27 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
 int	g_aor = 0;
-
-int	is_number(char str[])
-{
-	while (*str)
-	{
-		if (*str < '0' || *str > '9')
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
-int	ft_atoui(char s[])
-{
-	unsigned int	res;
-
-	res = 0;
-	while (*s)
-	{
-		res *= 10;
-		res += (*s - '0');
-		s++;
-	}
-	return (res);
-}
 
 void	char_to_sig(char c, pid_t pid)
 {
@@ -51,7 +26,7 @@ void	char_to_sig(char c, pid_t pid)
 		else
 			kill(pid, SIGUSR1);
 		i--;
-		while(g_aor == 0)
+		while (g_aor == 0)
 			usleep(1);
 		g_aor = 0;
 	}
@@ -73,7 +48,7 @@ void	dig_to_sig(int num, pid_t pid)
 			else
 				kill(pid, SIGUSR1);
 			i--;
-			while(g_aor == 0)
+			while (g_aor == 0)
 				usleep(1);
 			g_aor = 0;
 		}
@@ -91,21 +66,11 @@ void	received(int signum)
 	}
 }
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 int	main(int argc, char **argv)
 {
 	pid_t	pid;
 	char	*str;
-	int	lenght;
+	int		lenght;
 
 	if (argc != 3)
 		return (write(1, "Wrong argument amount\n", 23));
@@ -117,7 +82,7 @@ int	main(int argc, char **argv)
 	signal(SIGUSR2, received);
 	lenght = ft_strlen(str);
 	dig_to_sig(lenght, pid);
-	char_to_sig('!', pid);	
+	char_to_sig('!', pid);
 	while (*str)
 	{
 		char_to_sig(*str, pid);

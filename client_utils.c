@@ -1,42 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_utils.c                                     :+:      :+:    :+:   */
+/*   client_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nilamber <nilamber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nilamber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 20:30:56 by nilamber          #+#    #+#             */
-/*   Updated: 2024/10/05 18:47:12 by nilamber         ###   ########.fr       */
+/*   Created: 2024/10/09 16:57:57 by nilamber          #+#    #+#             */
+/*   Updated: 2024/10/09 17:03:39 by nilamber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
-
-char	power(char x, char y)
+int	ft_strlen(char *str)
 {
-	int		i;
-	char	res;
+	int	i;
 
-	if (!y)
-		return (1);
-	i = y;
-	res = x;
-	while (--i)
-	{
-		res *= x;
-	}
-	return (res);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
-int	numlen(unsigned int i)
+int	is_number(char str[])
 {
-	int	res;
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+int	ft_atoui(char s[])
+{
+	unsigned int	res;
 
 	res = 0;
-	while (i)
+	while (*s)
 	{
-		i /= 10;
-		res++;
+		res *= 10;
+		res += (*s - '0');
+		s++;
 	}
 	return (res);
 }
